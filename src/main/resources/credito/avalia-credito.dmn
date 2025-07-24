@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20230324/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20230324/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:kie="https://kie.org/dmn/extensions/1.0" expressionLanguage="https://www.omg.org/spec/DMN/20230324/FEEL/" namespace="https://kie.org/dmn/_BA5CE40E-3BC7-4B4C-89A4-F6F40121CD6D" id="_46803326-8D0C-4B7F-B6C3-7D34D8A0569D" name="avalia-credito">
+  <itemDefinition id="_C98C7AAC-D8E0-49E4-818A-E7D52151A75F" name="tCliente" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20230324/FEEL/">
+    <itemComponent id="_71445365-DCA2-4B4C-A56F-66382A444BDE" name="nome" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20230324/FEEL/">
+      <typeRef>string</typeRef>
+    </itemComponent>
+    <itemComponent id="_CFA9491E-DBA4-4A3E-BA12-C29444D3724D" name="dataNascimento" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20230324/FEEL/">
+      <typeRef>date</typeRef>
+    </itemComponent>
+  </itemDefinition>
+  <itemDefinition id="_21A9CE89-1459-4D04-BB80-C36CA2E0C1F8" name="tResultadoAvaliacao" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20230324/FEEL/">
+    <itemComponent id="_1AD7E2CD-C2CA-47A5-B2B5-C1763C5FC2F5" name="aprovado" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20230324/FEEL/">
+      <typeRef>boolean</typeRef>
+    </itemComponent>
+    <itemComponent id="_9546471B-D21B-4E06-BDC8-59EC67276D31" name="motivo" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20230324/FEEL/">
+      <typeRef>string</typeRef>
+    </itemComponent>
+  </itemDefinition>
+  <itemDefinition id="_25077B64-6888-45A5-9CB9-D7A0D62F78A6" name="tSolicitacao" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20230324/FEEL/">
+    <itemComponent id="_BBB506C9-DC1F-45DB-86F7-E921E9499D30" name="cliente" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20230324/FEEL/">
+      <typeRef>tCliente</typeRef>
+    </itemComponent>
+    <itemComponent id="_8679D77B-DD12-4F39-9D91-78302712773D" name="rendaMensal" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20230324/FEEL/">
+      <typeRef>number</typeRef>
+    </itemComponent>
+    <itemComponent id="_11FC7A2C-3056-4627-BAB6-A608B87568B3" name="gastoMensal" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20230324/FEEL/">
+      <typeRef>number</typeRef>
+    </itemComponent>
+    <itemComponent id="_D2D1930A-720D-43F5-B483-598C6E177107" name="valorSolicitado" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20230324/FEEL/">
+      <typeRef>number</typeRef>
+    </itemComponent>
+  </itemDefinition>
+  <inputData name="Solicitacao" id="_E54CAE40-3915-4F70-929D-F7D90E99B5DA">
+    <variable name="Solicitacao" id="_BC2CF1AD-0E41-47BD-9021-F50B27DD3834" typeRef="tSolicitacao" />
+  </inputData>
+  <decision name="MaiorIdade" id="_EED5D845-4446-4D91-B994-743A14EB50F8">
+    <variable name="MaiorIdade" id="_11F8E334-BD3C-4CFD-8F58-9CAD3AD8E316" typeRef="boolean" />
+    <informationRequirement id="_1DBD80B1-8EAD-4505-8AD4-64286D3F3681">
+      <requiredInput href="#_E54CAE40-3915-4F70-929D-F7D90E99B5DA" />
+    </informationRequirement>
+    <literalExpression id="_3A5A4AA3-CF5A-4A3E-A576-437331C9846E" typeRef="boolean" label="MaiorIdade">
+      <text>years and months duration(Solicitacao.cliente.dataNascimento, today()).years &gt;= 18</text>
+    </literalExpression>
+  </decision>
+  <decision name="ProcessaSolicitacao" id="_80670E46-8A8C-428D-86FD-B1E497ECEC15">
+    <variable name="ProcessaSolicitacao" id="_574E454E-6C0C-4C3F-93A2-1FD98E7377FE" typeRef="tResultadoAvaliacao" />
+    <informationRequirement id="_51DA4F84-3AE4-40EA-899B-876BC8F7019E">
+      <requiredDecision href="#_EED5D845-4446-4D91-B994-743A14EB50F8" />
+    </informationRequirement>
+    <informationRequirement id="_22C0D2EC-98DB-42C0-ABA7-7600ACB35D9E">
+      <requiredInput href="#_E54CAE40-3915-4F70-929D-F7D90E99B5DA" />
+    </informationRequirement>
+    <informationRequirement id="_FF58DB26-FC82-4FFD-B866-4E136687F6AF">
+      <requiredDecision href="#_E7A8DD02-E8FF-4A30-A9E5-ECB08CD92785" />
+    </informationRequirement>
+    <decisionTable id="_E209F4D2-724F-4BAD-A894-00D79696A036" typeRef="tResultadoAvaliacao" hitPolicy="UNIQUE" label="ProcessaSolicitacao">
+      <input id="_C9483A99-6FC6-416C-9797-F8A83B87A159">
+        <inputExpression id="_6AD50509-69F5-4D21-9ECC-388A759777B4" typeRef="boolean">
+          <text>MaiorIdade</text>
+        </inputExpression>
+      </input>
+      <input id="_2A838890-FF97-4684-9225-966AA6AEAEC5">
+        <inputExpression id="_F58EBC2A-FE48-4CAB-AB22-E9AF3BB42070" typeRef="number">
+          <text>SaldoMensal</text>
+        </inputExpression>
+      </input>
+      <input id="_B60A6E01-E17B-40CE-99F7-7325C7026480">
+        <inputExpression id="_D95BEE37-F3D3-485D-9060-25FE10808A1C" typeRef="number">
+          <text>SaldoMensal * 6 &gt;= Solicitacao.valorSolicitado</text>
+        </inputExpression>
+      </input>
+      <output id="_624D2611-1B43-49CC-A00A-D401D6711691" name="aprovado" typeRef="boolean" />
+      <output id="_0BD7E75F-65A4-40D9-9D0A-B7A6AA5E3D8B" name="motivo" typeRef="string" />
+      <annotation name="Annotations" />
+      <rule id="_FCC66731-5EED-4C7C-947F-A56035603594">
+        <inputEntry id="_EDB4C5F1-8951-46B6-8C44-40A3B3779D64">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="_7226CB34-7744-4C1C-9486-07E9A9D71321">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="_17F4B585-8E58-47D8-94C4-6FFD6EA7BB5D">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="_BF39E537-2288-40B3-B473-C73ED2DC9F39">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="_95DAE9F4-CE4F-46BF-98D9-57D4AC6C0D74">
+          <text>&quot;Cliente deve ser maior de idade para a obtenção de crédito.&quot;</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>// Your annotations here</text>
+        </annotationEntry>
+      </rule>
+      <rule id="_1A2B776A-A477-4719-B5F5-D1E846C27DA3">
+        <inputEntry id="_CAD9E164-3D6F-40A3-B627-54D266175351">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="_32F17BC7-DBF3-4DE2-A953-A382CF746365">
+          <text>&lt; 0</text>
+        </inputEntry>
+        <inputEntry id="_C1803AD1-2A72-4C26-88AC-3FE7A70272E9">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="_D0C2DE10-EF41-4576-9474-954DEDF35282">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="_1234075C-9674-4DD7-B7B7-DA15E9CC6FEF">
+          <text>&quot;Cliente possui saldo mensal negativo.&quot;</text>
+        </outputEntry>
+        <annotationEntry>
+          <text></text>
+        </annotationEntry>
+      </rule>
+      <rule id="_F4E7EB4A-4E3D-4EBE-9DFC-52564B4E354A">
+        <inputEntry id="_785C0679-B309-4F67-A79A-7293D7967DF2">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="_9EF63870-D747-4683-A763-F252B37100A8">
+          <text>&gt; 0</text>
+        </inputEntry>
+        <inputEntry id="_83B67F06-384C-4E10-B9A3-7368F9C3E121">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="_DB577E5B-D26A-4ACD-B0E5-FF3FF4C26520">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="_26B6C310-6FD3-474B-A073-EE757451566C">
+          <text>&quot;Saldo mensal do cliente é incompatível com o valor solicitado.&quot;</text>
+        </outputEntry>
+        <annotationEntry>
+          <text></text>
+        </annotationEntry>
+      </rule>
+      <rule id="_D7B588CF-DFE6-4B45-AC0D-51DC8635F088">
+        <inputEntry id="_99AE6155-67BB-412F-B7BE-9804B2D19BFF">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="_B68D2D13-E2AE-4C49-BF65-0CC9E34765F2">
+          <text>&gt; 0</text>
+        </inputEntry>
+        <inputEntry id="_E4186413-972C-4175-8352-CA61AA3CE167">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="_D3ACD733-2ACF-4F09-9785-2FD3BBCD4907">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="_672A971A-9BF6-4A0B-9B24-BB0D0253ADA3">
+          <text>&quot;O cliente cumpre com os requisitos de idade e saldo mensal necessários&quot;</text>
+        </outputEntry>
+        <annotationEntry>
+          <text></text>
+        </annotationEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision name="SaldoMensal" id="_E7A8DD02-E8FF-4A30-A9E5-ECB08CD92785">
+    <variable name="SaldoMensal" id="_C2C8A800-AA73-42F0-ABC9-E94FE3352585" typeRef="number" />
+    <informationRequirement id="_860CE0F3-C208-4737-BCD6-F8E1E001F799">
+      <requiredInput href="#_E54CAE40-3915-4F70-929D-F7D90E99B5DA" />
+    </informationRequirement>
+    <literalExpression id="_E41F9C0E-DFBF-4FCA-B474-6757B6D280C2" typeRef="number" label="SaldoMensal">
+      <text>Solicitacao.rendaMensal - Solicitacao.gastoMensal</text>
+    </literalExpression>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="_23561E28-1ADA-4039-9FEA-6E5806BF8933" name="Default DRD" useAlternativeInputDataShape="false">
+      <di:extension>
+        <kie:ComponentsWidthsExtension>
+          <kie:ComponentWidths dmnElementRef="_3A5A4AA3-CF5A-4A3E-A576-437331C9846E">
+            <kie:width>706</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_E209F4D2-724F-4BAD-A894-00D79696A036">
+            <kie:width>60</kie:width>
+            <kie:width>157</kie:width>
+            <kie:width>240</kie:width>
+            <kie:width>445</kie:width>
+            <kie:width>162</kie:width>
+            <kie:width>156</kie:width>
+            <kie:width>240</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_E41F9C0E-DFBF-4FCA-B474-6757B6D280C2">
+            <kie:width>554</kie:width>
+          </kie:ComponentWidths>
+        </kie:ComponentsWidthsExtension>
+      </di:extension>
+      <dmndi:DMNShape id="_5FBEB954-024F-4BAB-AA93-DBB700763B18" dmnElementRef="_E54CAE40-3915-4F70-929D-F7D90E99B5DA" isCollapsed="false" isListedInputData="false">
+        <dc:Bounds x="200" y="120" width="160" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="_CEBEF304-8F1F-4408-AD93-D7B7605253EE" dmnElementRef="_EED5D845-4446-4D91-B994-743A14EB50F8" isCollapsed="false" isListedInputData="false">
+        <dc:Bounds x="200" y="-60" width="160" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="_F0DCF882-DAF9-4EF8-89CB-22570AF0878B" dmnElementRef="_80670E46-8A8C-428D-86FD-B1E497ECEC15" isCollapsed="false" isListedInputData="false">
+        <dc:Bounds x="480" y="120" width="180" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="_455DD994-D67E-4403-8FA3-8FF6CCFFDF76" dmnElementRef="_51DA4F84-3AE4-40EA-899B-876BC8F7019E" sourceElement="_CEBEF304-8F1F-4408-AD93-D7B7605253EE" targetElement="_F0DCF882-DAF9-4EF8-89CB-22570AF0878B">
+        <di:waypoint x="280" y="-20" />
+        <di:waypoint x="570" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="_388F93F5-94E1-48E1-A65B-FDA44C6A37AE" dmnElementRef="_22C0D2EC-98DB-42C0-ABA7-7600ACB35D9E" sourceElement="_5FBEB954-024F-4BAB-AA93-DBB700763B18" targetElement="_F0DCF882-DAF9-4EF8-89CB-22570AF0878B">
+        <di:waypoint x="280" y="160" />
+        <di:waypoint x="570" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="_08CEC2B7-C2E6-48A9-A45B-AAC1606F7A26" dmnElementRef="_E7A8DD02-E8FF-4A30-A9E5-ECB08CD92785" isCollapsed="false" isListedInputData="false">
+        <dc:Bounds x="200" y="300" width="160" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="_69081994-4790-4FFE-88F6-5342E575DCDC" dmnElementRef="_FF58DB26-FC82-4FFD-B866-4E136687F6AF" sourceElement="_08CEC2B7-C2E6-48A9-A45B-AAC1606F7A26" targetElement="_F0DCF882-DAF9-4EF8-89CB-22570AF0878B">
+        <di:waypoint x="280" y="340" />
+        <di:waypoint x="570" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="_A25FFD46-574C-4C8F-8439-1B67173B5D8D" dmnElementRef="_860CE0F3-C208-4737-BCD6-F8E1E001F799" sourceElement="_5FBEB954-024F-4BAB-AA93-DBB700763B18" targetElement="_08CEC2B7-C2E6-48A9-A45B-AAC1606F7A26">
+        <di:waypoint x="280" y="160" />
+        <di:waypoint x="280" y="340" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="_F7418785-056A-4ABD-8CD1-6BD4A8EF57F2" dmnElementRef="_1DBD80B1-8EAD-4505-8AD4-64286D3F3681" sourceElement="_5FBEB954-024F-4BAB-AA93-DBB700763B18" targetElement="_CEBEF304-8F1F-4408-AD93-D7B7605253EE">
+        <di:waypoint x="280" y="160" />
+        <di:waypoint x="280" y="-20" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20230324/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20230324/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:kie="https://kie.org/dmn/extensions/1.0" expressionLanguage="https://www.omg.org/spec/DMN/20230324/FEEL/" namespace="https://kie.apache.org/dmn/_DDD7123C-430A-4A1B-A22B-45C7756EAECB" id="_B12DDD56-8B28-4AF4-80D6-508E5F950316" name="maior-idade">
+  <itemDefinition id="_B17A4BB7-BA8B-4EB0-8C3E-D133F26C1D6F" name="tCidadao" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20230324/FEEL/">
+    <itemComponent id="_A378862C-BE6F-4ACA-AFC9-D61A651180FB" name="nome" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20230324/FEEL/">
+      <typeRef>string</typeRef>
+    </itemComponent>
+    <itemComponent id="_070FDF94-8AFF-4577-9921-B182D416B555" name="data_nascimento" isCollection="false" typeLanguage="https://www.omg.org/spec/DMN/20230324/FEEL/">
+      <typeRef>date</typeRef>
+    </itemComponent>
+  </itemDefinition>
+  <inputData name="Cidadao" id="_66E37ADC-0626-43B7-A7FE-89AEEF1D6AB4">
+    <variable name="Cidadao" id="_9A8C6497-F434-4DF2-A54B-BE0905AD7CEE" typeRef="tCidadao" />
+  </inputData>
+  <decision name="AptoHabilitacao" id="_306F0AE0-CFD1-4C2A-A759-193FF8F405FA">
+    <variable name="AptoHabilitacao" id="_9140A83E-F542-41E5-9C3A-6784FC19708B" typeRef="string" />
+    <informationRequirement id="_590454EF-05A8-4296-9E65-FD34B7B99104">
+      <requiredDecision href="#_B9EF3E16-C9FB-4FFB-BB9E-FAD19E335726" />
+    </informationRequirement>
+    <informationRequirement id="_7A739890-6BF6-41C2-B0E9-BDEBA7B9A9C1">
+      <requiredInput href="#_66E37ADC-0626-43B7-A7FE-89AEEF1D6AB4" />
+    </informationRequirement>
+    <knowledgeRequirement id="_C71E3F77-DDD3-457C-90F7-4882C27E6349">
+      <requiredKnowledge href="#_E541297A-6D60-416E-B5E8-B81585FAB66F" />
+    </knowledgeRequirement>
+    <literalExpression id="_8FCA2BDA-D3B7-4CB1-BF79-A7CC496CC9E5" typeRef="string" label="AptoHabilitacao">
+      <text>if MaiorIdade then ObterMensagem(Cidadao.nome, &quot;apto para o processo de habilitação.&quot;) else ObterMensagem(Cidadao.nome, &quot;inapto para o processo de habilitação&quot;)</text>
+    </literalExpression>
+  </decision>
+  <decision name="MaiorIdade" id="_B9EF3E16-C9FB-4FFB-BB9E-FAD19E335726">
+    <variable name="MaiorIdade" id="_D62B7993-387A-475F-87C5-2D5E41A38D2A" typeRef="boolean" />
+    <informationRequirement id="_8852B45E-2826-4828-BEBF-918A7C686630">
+      <requiredDecision href="#_A76FFBA6-6B14-4065-853D-F17D773597C7" />
+    </informationRequirement>
+    <literalExpression id="_4B403ECD-A22F-46C2-9684-BC620227B612" typeRef="boolean" label="MaiorIdade">
+      <text>ObterIdade &gt;= 18</text>
+    </literalExpression>
+  </decision>
+  <decision name="ObterIdade" id="_A76FFBA6-6B14-4065-853D-F17D773597C7">
+    <variable name="ObterIdade" id="_3DAC18B9-0096-4647-89F4-7F0EBB7F5AB7" typeRef="number" />
+    <informationRequirement id="_30EE4529-6EED-4CC3-B8D1-E3C15C2A850D">
+      <requiredInput href="#_66E37ADC-0626-43B7-A7FE-89AEEF1D6AB4" />
+    </informationRequirement>
+    <knowledgeRequirement id="_EF9F4D60-05C2-453E-BBFF-1387A2D2945F">
+      <requiredKnowledge href="#_05AA1FB4-CA2A-46AC-8FEB-172AACA816C6" />
+    </knowledgeRequirement>
+    <literalExpression id="_6D7612A8-298E-4FF3-A781-5E6A128434A2" typeRef="number" label="ObterIdade">
+      <text>years and months duration(Cidadao.data_nascimento, DataAtual()).years</text>
+    </literalExpression>
+  </decision>
+  <businessKnowledgeModel name="ObterMensagem" id="_E541297A-6D60-416E-B5E8-B81585FAB66F">
+    <variable name="ObterMensagem" id="_8C1137E6-586C-4527-9D6A-A6EDFFE5652E" typeRef="string" />
+    <encapsulatedLogic label="ObterMensagem" typeRef="string" id="_06CE8775-A5C6-4621-BB49-F0F249FDFC1A" kind="FEEL">
+      <formalParameter id="_2324EDED-8DF0-4B62-80B6-54744C098B5D" name="nome_cidadao" typeRef="string" />
+      <formalParameter id="_95F2E462-27E6-4D56-A65B-C114762F848A" name="resultado" typeRef="string" />
+      <literalExpression id="_3832D888-5913-4827-A450-9C7E5AA57BA1" typeRef="string" label="Return">
+        <text>nome_cidadao + &quot; está &quot; + resultado</text>
+      </literalExpression>
+    </encapsulatedLogic>
+  </businessKnowledgeModel>
+  <businessKnowledgeModel name="DataAtual" id="_05AA1FB4-CA2A-46AC-8FEB-172AACA816C6">
+    <variable name="DataAtual" id="_98235CAE-91F4-4820-9B67-C0D6D2CE142F" typeRef="date" />
+    <encapsulatedLogic label="DataAtual" typeRef="date" id="_8F7B1707-2AC0-44DA-A292-E6A73A2CBE93" kind="FEEL">
+      <literalExpression id="_E6713B74-3335-4C85-87A7-CECE5A8EF1B0" typeRef="date" label="Return">
+        <text>today()</text>
+      </literalExpression>
+    </encapsulatedLogic>
+  </businessKnowledgeModel>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="_040E535E-A29E-4D69-8026-D2135A84672C" name="Default DRD" useAlternativeInputDataShape="false">
+      <di:extension>
+        <kie:ComponentsWidthsExtension>
+          <kie:ComponentWidths dmnElementRef="_E6713B74-3335-4C85-87A7-CECE5A8EF1B0">
+            <kie:width>190</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_6D7612A8-298E-4FF3-A781-5E6A128434A2">
+            <kie:width>764</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_4B403ECD-A22F-46C2-9684-BC620227B612">
+            <kie:width>434</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_3832D888-5913-4827-A450-9C7E5AA57BA1">
+            <kie:width>651</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_8FCA2BDA-D3B7-4CB1-BF79-A7CC496CC9E5">
+            <kie:width>700</kie:width>
+          </kie:ComponentWidths>
+        </kie:ComponentsWidthsExtension>
+      </di:extension>
+      <dmndi:DMNShape id="_4727CE58-142E-4D05-8ECC-4CCAA7334D7A" dmnElementRef="_05AA1FB4-CA2A-46AC-8FEB-172AACA816C6" isCollapsed="false" isListedInputData="false">
+        <dc:Bounds x="160" y="-80" width="160" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="_E693C7A8-6DBD-4F79-A3BD-57FF7399A712" dmnElementRef="_E541297A-6D60-416E-B5E8-B81585FAB66F" isCollapsed="false" isListedInputData="false">
+        <dc:Bounds x="980" y="100" width="160" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="_A6FFD5A5-4E37-45E0-8D28-3AA83FB919A5" dmnElementRef="_A76FFBA6-6B14-4065-853D-F17D773597C7" isCollapsed="false" isListedInputData="false">
+        <dc:Bounds x="420" y="-80" width="160" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="_0879039D-DC56-45CE-9957-0639D7D8A745" dmnElementRef="_B9EF3E16-C9FB-4FFB-BB9E-FAD19E335726" isCollapsed="false" isListedInputData="false">
+        <dc:Bounds x="700" y="-80" width="160" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="_DFA2C6D5-27A8-4AD2-A0B9-B6D2E8D7E7B6" dmnElementRef="_306F0AE0-CFD1-4C2A-A759-193FF8F405FA" isCollapsed="false" isListedInputData="false">
+        <dc:Bounds x="700" y="100" width="160" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="_A9E94FD0-B94C-49CB-8F7E-83C9023B25C4" dmnElementRef="_66E37ADC-0626-43B7-A7FE-89AEEF1D6AB4" isCollapsed="false" isListedInputData="false">
+        <dc:Bounds x="420" y="100" width="160" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="_C9FB3A08-6AFF-47FC-B480-A54AB972BF91" dmnElementRef="_30EE4529-6EED-4CC3-B8D1-E3C15C2A850D" sourceElement="_A9E94FD0-B94C-49CB-8F7E-83C9023B25C4" targetElement="_A6FFD5A5-4E37-45E0-8D28-3AA83FB919A5">
+        <di:waypoint x="500" y="140" />
+        <di:waypoint x="500" y="-40" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="_C1C323B2-816B-40CB-AD57-690553859E9D" dmnElementRef="_EF9F4D60-05C2-453E-BBFF-1387A2D2945F" sourceElement="_4727CE58-142E-4D05-8ECC-4CCAA7334D7A" targetElement="_A6FFD5A5-4E37-45E0-8D28-3AA83FB919A5">
+        <di:waypoint x="240" y="-40" />
+        <di:waypoint x="500" y="-40" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="_3BA79AF2-B186-4B60-8BD1-E179A1258C0B" dmnElementRef="_8852B45E-2826-4828-BEBF-918A7C686630" sourceElement="_A6FFD5A5-4E37-45E0-8D28-3AA83FB919A5" targetElement="_0879039D-DC56-45CE-9957-0639D7D8A745">
+        <di:waypoint x="500" y="-40" />
+        <di:waypoint x="780" y="-40" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="_1219FDF5-ED7D-4721-A974-B3189DC226EB" dmnElementRef="_590454EF-05A8-4296-9E65-FD34B7B99104" sourceElement="_0879039D-DC56-45CE-9957-0639D7D8A745" targetElement="_DFA2C6D5-27A8-4AD2-A0B9-B6D2E8D7E7B6">
+        <di:waypoint x="780" y="-40" />
+        <di:waypoint x="780" y="140" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="_EDB978B5-2231-4DE1-A2C9-DCFDC8D9772F" dmnElementRef="_7A739890-6BF6-41C2-B0E9-BDEBA7B9A9C1" sourceElement="_A9E94FD0-B94C-49CB-8F7E-83C9023B25C4" targetElement="_DFA2C6D5-27A8-4AD2-A0B9-B6D2E8D7E7B6">
+        <di:waypoint x="500" y="140" />
+        <di:waypoint x="780" y="140" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="_FE348A42-B898-4BDC-BA51-1C44122ECF4E" dmnElementRef="_C71E3F77-DDD3-457C-90F7-4882C27E6349" sourceElement="_E693C7A8-6DBD-4F79-A3BD-57FF7399A712" targetElement="_DFA2C6D5-27A8-4AD2-A0B9-B6D2E8D7E7B6">
+        <di:waypoint x="1060" y="140" />
+        <di:waypoint x="780" y="140" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
