@@ -1,8 +1,9 @@
 server:
   address: 0.0.0.0
+  port: 8080
 
 kogito:
-  service.url: http://localhost:8080
+  service.url: http://localhost:${server.port}
 
 spring:
   datasource:
