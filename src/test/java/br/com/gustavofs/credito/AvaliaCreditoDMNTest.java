@@ -36,7 +36,6 @@ public class AvaliaCreditoDMNTest {
         specification = new RequestSpecBuilder()
             .setContentType(ContentType.JSON)
             .setBaseUri(baseURI)
-            // .setBasePath("/avalia-credito")
             .build();
     }
 
@@ -121,6 +120,6 @@ public class AvaliaCreditoDMNTest {
                 .statusCode(HttpStatus.OK.value())
                 .body("MaiorIdade", equalTo(true))
                 .body("ProcessaSolicitacao.aprovado", equalTo(true))
-                .body("ProcessaSolicitacao.motivo", equalTo("O cliente cumpre com os requisitos de idade e saldo mensal necessários"));
+                .body("ProcessaSolicitacao.motivo", equalTo("O cliente cumpre com os requisitos de idade e saldo mensal necessários."));
     }
 }
