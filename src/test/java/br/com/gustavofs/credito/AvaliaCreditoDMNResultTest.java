@@ -23,7 +23,7 @@ import io.restassured.specification.RequestSpecification;
 
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 @TestInstance(Lifecycle.PER_CLASS)
-public class AvaliaCreditoDMNTest {
+public class AvaliaCreditoDMNResultTest {
     
     @Value("${kogito.service.url}")
     private String baseURI;
@@ -42,7 +42,7 @@ public class AvaliaCreditoDMNTest {
     }
 
     @Test
-    public void testQuandoClienteMenorDeIdade() throws IOException {
+    public void testQuandoClienteMenorDeIdadeDMNREsult() throws IOException {
         String jsonBody = JsonLoader.getPayloadFileContent(
             resourceLoader, "dmn_quandoClienteMenorDeIdade.json");
 
@@ -50,16 +50,16 @@ public class AvaliaCreditoDMNTest {
                 .spec(specification)
                 .body(jsonBody)
             .when()
-                .post("/avalia-credito")
+                .post("/avalia-credito/dmnresult")
             .then()
                 .statusCode(HttpStatus.OK.value())
-                .body("MaiorIdade", equalTo(false))
-                .body("ProcessaSolicitacao.aprovado", equalTo(false))
-                .body("ProcessaSolicitacao.motivo", equalTo("Cliente deve ser maior de idade para a obtenção de crédito."));
+                .body("dmnContext.MaiorIdade", equalTo(false))
+                .body("dmnContext.ProcessaSolicitacao.aprovado", equalTo(false))
+                .body("dmnContext.ProcessaSolicitacao.motivo", equalTo("Cliente deve ser maior de idade para a obtenção de crédito."));
     }
 
     @Test
-    public void testQuandoSaldoMensalNegativo() throws IOException {
+    public void testQuandoSaldoMensalNegativoDMNREsult() throws IOException {
         String jsonBody = JsonLoader.getPayloadFileContent(
             resourceLoader, "dmn_quandoSaldoMensalNegativo.json");
 
@@ -67,16 +67,16 @@ public class AvaliaCreditoDMNTest {
                 .spec(specification)
                 .body(jsonBody)
             .when()
-                .post("/avalia-credito")
+                .post("/avalia-credito/dmnresult")
             .then()
                 .statusCode(HttpStatus.OK.value())
-                .body("MaiorIdade", equalTo(true))
-                .body("ProcessaSolicitacao.aprovado", equalTo(false))
-                .body("ProcessaSolicitacao.motivo", equalTo("Cliente possui saldo mensal zerado ou negativo."));
+                .body("dmnContext.MaiorIdade", equalTo(true))
+                .body("dmnContext.ProcessaSolicitacao.aprovado", equalTo(false))
+                .body("dmnContext.ProcessaSolicitacao.motivo", equalTo("Cliente possui saldo mensal zerado ou negativo."));
     }
 
     @Test
-    public void testQuandoSaldoMensalIncompativelComValorSolicitado() throws IOException {
+    public void testQuandoSaldoMensalIncompativelComValorSolicitadoDMNREsult() throws IOException {
         String jsonBody = JsonLoader.getPayloadFileContent(
             resourceLoader, "dmn_quandoSaldoMensalIncompativel.json");
 
@@ -84,16 +84,16 @@ public class AvaliaCreditoDMNTest {
                 .spec(specification)
                 .body(jsonBody)
             .when()
-                .post("/avalia-credito")
+                .post("/avalia-credito/dmnresult")
             .then()
                 .statusCode(HttpStatus.OK.value())
-                .body("MaiorIdade", equalTo(true))
-                .body("ProcessaSolicitacao.aprovado", equalTo(false))
-                .body("ProcessaSolicitacao.motivo", equalTo("Saldo mensal do cliente é incompatível com o valor solicitado."));
+                .body("dmnContext.MaiorIdade", equalTo(true))
+                .body("dmnContext.ProcessaSolicitacao.aprovado", equalTo(false))
+                .body("dmnContext.ProcessaSolicitacao.motivo", equalTo("Saldo mensal do cliente é incompatível com o valor solicitado."));
     }
 
     @Test
-    public void testQuandoCreditoAprovado() throws IOException {
+    public void testQuandoCreditoAprovadoDMNREsult() throws IOException {
         String jsonBody = JsonLoader.getPayloadFileContent(
             resourceLoader, "dmn_quandoCreditoAprovado.json");
 
@@ -101,11 +101,11 @@ public class AvaliaCreditoDMNTest {
                 .spec(specification)
                 .body(jsonBody)
             .when()
-                .post("/avalia-credito")
+                .post("/avalia-credito/dmnresult")
             .then()
                 .statusCode(HttpStatus.OK.value())
-                .body("MaiorIdade", equalTo(true))
-                .body("ProcessaSolicitacao.aprovado", equalTo(true))
-                .body("ProcessaSolicitacao.motivo", equalTo("O cliente cumpre com os requisitos de idade e saldo mensal necessários."));
+                .body("dmnContext.MaiorIdade", equalTo(true))
+                .body("dmnContext.ProcessaSolicitacao.aprovado", equalTo(true))
+                .body("dmnContext.ProcessaSolicitacao.motivo", equalTo("O cliente cumpre com os requisitos de idade e saldo mensal necessários."));
     }
 }
