@@ -80,7 +80,7 @@ public class SolicitacaoCreditoBPMNTest {
                 .statusCode(HttpStatus.CREATED.value())
                 .body("resultadoSolicitacao.nomeCliente", equalTo(solicitacao.getNomeCliente()))
                 .body("resultadoSolicitacao.status", equalTo("REPROVADO"))
-                .body("resultadoSolicitacao.descricao", equalTo("Cliente possui saldo mensal negativo."));
+                .body("resultadoSolicitacao.descricao", equalTo("Cliente possui saldo mensal zerado ou negativo."));
     }
 
     @Test

@@ -78,7 +78,7 @@ public class AvaliaCreditoDMNTest {
                 .statusCode(HttpStatus.OK.value())
                 .body("MaiorIdade", equalTo(true))
                 .body("ProcessaSolicitacao.aprovado", equalTo(false))
-                .body("ProcessaSolicitacao.motivo", equalTo("Cliente possui saldo mensal negativo."));
+                .body("ProcessaSolicitacao.motivo", equalTo("Cliente possui saldo mensal zerado ou negativo."));
     }
 
     @Test

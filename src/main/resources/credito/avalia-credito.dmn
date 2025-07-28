@@ -65,7 +65,7 @@
         </inputExpression>
       </input>
       <input id="_B60A6E01-E17B-40CE-99F7-7325C7026480">
-        <inputExpression id="_D95BEE37-F3D3-485D-9060-25FE10808A1C" typeRef="number">
+        <inputExpression id="_D95BEE37-F3D3-485D-9060-25FE10808A1C" typeRef="boolean">
           <text>SaldoMensal * 6 &gt;= Solicitacao.valorSolicitado</text>
         </inputExpression>
       </input>
@@ -97,7 +97,7 @@
           <text>true</text>
         </inputEntry>
         <inputEntry id="_32F17BC7-DBF3-4DE2-A953-A382CF746365">
-          <text>&lt; 0</text>
+          <text>&lt;= 0</text>
         </inputEntry>
         <inputEntry id="_C1803AD1-2A72-4C26-88AC-3FE7A70272E9">
           <text>-</text>
@@ -106,7 +106,7 @@
           <text>false</text>
         </outputEntry>
         <outputEntry id="_1234075C-9674-4DD7-B7B7-DA15E9CC6FEF">
-          <text>&quot;Cliente possui saldo mensal negativo.&quot;</text>
+          <text>&quot;Cliente possui saldo mensal zerado ou negativo.&quot;</text>
         </outputEntry>
         <annotationEntry>
           <text></text>
