@@ -1,0 +1,11 @@
+{
+  "Solicitacao": {
+    "cliente": {
+      "nome": "John Doe",
+      "dataNascimento": "2012-01-25"
+    },
+    "rendaMensal": 5000,
+    "gastoMensal": 4000,
+    "valorSolicitado": 6000
+  }
+}
