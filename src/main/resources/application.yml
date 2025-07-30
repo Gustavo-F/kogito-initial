@@ -3,7 +3,8 @@ server:
   port: 8080
 
 kogito:
-  service.url: http://localhost:${server.port}
+  service:
+    url: http://localhost:${server.port}
 
 spring:
   datasource:
@@ -18,3 +19,7 @@ spring:
   h2:
     console:
       enabled: true
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui
